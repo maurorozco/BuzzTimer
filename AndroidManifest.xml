@@ -1,0 +1,74 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.buzztimer.timer"
+        android:versionCode="200" android:versionName="2.0.0">
+
+    <original-package android:name="com.buzztimer.timer" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19" ></uses-sdk>
+
+    <application android:label="@string/menu_timer"
+                 android:icon="@mipmap/ic_launcher"
+                 android:requiredForAllUsers="true"
+                 android:supportsRtl="true">
+
+
+        <activity android:name="TimerActivity"
+                android:label="@string/menu_timer"
+                android:theme="@style/Timer"
+                android:icon="@mipmap/ic_launcher"
+                android:launchMode="singleTask"
+                >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+
+        <!-- This activity is basically like the TimerFragment in DeskClock
+         but only during lock screen
+         so that is only has the fired timers -->
+        <activity android:name="com.buzztimer.timer.TimerAlertFullScreen"
+                android:excludeFromRecents="true"
+                android:theme="@style/AlarmAlertFullScreenTheme"
+                android:launchMode="singleInstance"
+                android:showOnLockScreen="true"
+                android:taskAffinity=""
+                android:configChanges="orientation|screenSize|keyboardHidden|keyboard|navigation"/>
+
+        <service android:name="TimerRingService"
+                android:exported="false"
+                android:description="@string/timer_ring_service_desc">
+            <intent-filter>
+                <action android:name="com.buzztimer.timer.TIMER_ALERT" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.buzztimer.timer.TimerReceiver"
+                android:exported="false">
+            <intent-filter>
+                <action android:name="start_timer" />
+                <action android:name="delete_timer" />
+                <action android:name="times_up" />
+                <action android:name="timer_stop" />
+                <action android:name="timer_reset" />
+                <action android:name="timer_done" />
+                <action android:name="timer_update" />
+                <action android:name="notif_in_use_show" />
+                <action android:name="notif_in_use_cancel" />
+                <action android:name="notif_times_up_stop" />
+                <action android:name="notif_times_up_plus_one" />
+                <action android:name="notif_times_up_show" />
+                <action android:name="notif_times_up_cancel" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+</manifest>
+
